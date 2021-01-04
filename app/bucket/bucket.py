@@ -14,7 +14,7 @@ def saveimage(image):
         aws_access_key_id='AKIARP6D4SYXVPI27Y6U',
         aws_secret_access_key='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'
     )
-    s3.Object(bucket_name, key).put(Body=imagen)
+    s3.Object(bucket_name, key).put(Body=image)
     location = boto3.client(
         service_name='s3',
         region_name='us-east-2',
