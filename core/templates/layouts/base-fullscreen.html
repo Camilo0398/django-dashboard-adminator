@@ -18,12 +18,35 @@
         background: #fff;
         z-index: 90000;
       }
-
-      #loader.fadeOut {
-        opacity: 0;
-        visibility: hidden;
+      
+      .btn-custom {
+        background-color: #ff006e;
+        border-color: #ff006e;
+        border-radius: 15px;
+        color: #ffffff;
       }
-
+      .btn-custom:hover,
+      .btn-custom:focus,
+      .btn-custom:active,
+      .btn-custom.active {
+        background-color: #e60063;
+        border-color: #cc0058;
+      }
+      .btn-custom.disabled:hover,
+      .btn-custom.disabled:focus,
+      .btn-custom.disabled:active,
+      .btn-custom.disabled.active,
+      .btn-custom[disabled]:hover,
+      .btn-custom[disabled]:focus,
+      .btn-custom[disabled]:active,
+      .btn-custom[disabled].active,
+      fieldset[disabled] .btn-custom:hover,
+      fieldset[disabled] .btn-custom:focus,
+      fieldset[disabled] .btn-custom:active,
+      fieldset[disabled] .btn-custom.active {
+        background-color: #ff006e;
+        border-color: #ff006e;
+      }
       .spinner {
         width: 40px;
         height: 40px;

@@ -24,13 +24,15 @@ def login_view(request):
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
+            print('este es el usuario: ')
+            print(user)
             if user is not None:
                 login(request, user)
                 return redirect("/")
             else:    
-                msg = 'Invalid credentials'    
+                msg = 'Correo o contraseña incorrectos'    
         else:
-            msg = 'Error validating the form'    
+            msg = 'Error validando el formulario'    
 
     return render(request, "accounts/login.html", {"form": form, "msg" : msg})
 

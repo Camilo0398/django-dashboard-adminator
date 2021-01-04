@@ -10,8 +10,17 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='home'),
-
-    # Matches any html file
+    path('actuusuario', views.actuusuario, name='actuusuario'),
+    path('actuproducto', views.actuproducto, name='actuproducto'),
+    path('actucompany', views.actucompany, name='actucompany'),
+    path('usuarios', views.usuarios, name='usuarios'),
+    path('companys', views.companys, name='companys'),
+    path('productos', views.productos, name='productos'),
+    path('planes', views.planes, name='planes'),
+    path('usuarios.datosusuario', views.datosusuario, name='datosusuario'),
+    path('companys.datoscompany', views.datoscompany, name='datoscompany'),
+    path('companys.datosproducto', views.datosproducto, name='datosproducto'),
+    # # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
 
 ]
