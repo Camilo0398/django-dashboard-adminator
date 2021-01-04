@@ -1,0 +1,128 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Datos de {{company.name}} {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-3"></div>
+        <div class="masonry-item col-md-3">
+        </div>
+        <div class="masonry-item col-md-6">
+        <div class="bgc-white p-20 bd">
+        <h4 class="c-grey-900">Informacion empresarial</h4>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <img class="card-img-center" src="{{company.imageurl}}"  height="200">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="c-grey-900">{{company.name}}</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <h5 class="c-grey-900"> NIT.{{company.nit}}</h5>
+                    </div>
+                </div>
+            </div>
+            <hr size="100" />
+            <div class="mT-30">
+            <form method='POST' action="{% url 'actucompany' %}">{% csrf_token %}
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Direccion</label>
+                    <input type="text" class="form-control" name="nombre" value="{{company.address}}"></input>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="numero">Numero de telefono</label>
+                    <input type="text" class="form-control" name="numero" value="{{company.accountcellphone}}">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputAddress">Correo </label>
+                <input type="email" class="form-control" name="correo" value="{{company.accountemail}}">
+                </div>
+                <div class="form-group">
+                <label for="inputAddress2">Estado</label>
+                
+                <select name="company" class="form-control">
+                    {% for estado in estados %}
+                        
+                        {% ifequal  estado.statuscompanyid company.statuscompany_statuscompanyid.statuscompanyid%}
+                            <option selected="selected">{{estado.name}}</option>
+                        {% else %}
+                            
+                            <option >{{estado.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Tipo</label>
+                    <select name="rol" class="form-control">
+                    {% for tipo in tipos %}
+                        
+                        {% ifequal  tipo.idcompanytype company.companytype.idcompanytype%}
+                            <option selected="selected">{{tipo.companytypedescription}}</option>
+                        {% else %}
+                            <option >{{tipo.companytypedescription}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputState">Tipo formulario APP</label>
+                    <select name="status" class="form-control">
+                    {% for formulario in formularios %}
+                        
+                        {% ifequal  formulario.idappformulary company.appformularyid.idappformulary%}
+                            <option selected="selected">{{formulario.appformularydescription}}</option>
+                        {% else %}
+                            
+                            <option >{{formulario.appformularydescription}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                
+                </div>
+                <input type="hidden" name="iduser" value="{{usuario.userid}}">
+                <button type="submit" class="btn-custom">Guardar</button>
+            </form>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+    {% comment %} {% load log %}
+    {% get_admin_log 10 as admin_log for_user user %}
+    {% if not admin_log %}
+        <p>{% translate 'None available' %}</p>
+    {% else %}
+        <ul class="actionlist">
+        {% for entry in admin_log %}
+        <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+        {% if entry.is_deletion or not entry.get_admin_url %}
+            {{ entry.object_repr }}
+        {% else %}
+            <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+        {% endif %}
+        <br>
+        {% if entry.content_type %}
+            <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+        {% else %}
+            <span class="mini quiet">{% translate 'Unknown content' %}</span>
+        {% endif %}
+        </li>
+        {% endfor %}
+        </ul>
+    {% endif %} {% endcomment %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

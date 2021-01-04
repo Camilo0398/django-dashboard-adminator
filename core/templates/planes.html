@@ -1,0 +1,67 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Clientes {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row ">   
+            <div class="col-md-11"><h4 class="c-grey-900 mT-10 mB-30 col-md-6">Planes Registrados</h4></div>
+            <div class="col-md-1 text-center ">
+            <a href="" class="badge bgc-pink-50 c-pink-700 p-5 lh-0 tt-c ">
+                <h5 class="m-0 p-0 w-100">
+                    <i class="ti-plus"></i>
+                    <h6>Crear Plan</h6>
+                </h5>
+            </a>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+            <div class='data-table-rows data-tables-hide-filter'>
+            <div class="bgc-white bd bdrs-3 p-20 mB-20">
+            <h4 class="c-grey-900 mB-20"></h4>
+            <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%" height="100%">
+                <thead>
+                    <tr>
+                    <th>Nombre</th>
+                    <th>Festivo</th>
+                    <th>Día hábil</th>
+                    </tr>
+                </thead>
+                
+                <tfoot>
+                    <tr>
+                    <th>Nombre</th>
+                    <th>Festivo</th>
+                    <th>Día hábil</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                 {% for plan in planes %}
+    	            <tr>
+			            <td>{{plan.planname}}</td>
+			            <td>{{plan.holidayprice}}</td>
+			            <td>{{plan.workdayprice}}</td>
+			            {% comment %} <td><form method='POST' action="{% url 'consulta' %}">{% csrf_token %}
+				        <input type="hidden" name="idpa" value="{{paciente.paciente_id.id}}">
+				        <button type="submit" class="fas fa-address-card "></button>
+			            </form></td> {% endcomment %}
+		            </tr>
+	            {% endfor %}
+                </tbody>
+                    
+                
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

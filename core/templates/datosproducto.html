@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Datos de usuario {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-3"></div>
+        <div class="masonry-item col-md-3">
+        </div>
+        <div class="masonry-item col-md-6">
+        <div class="bgc-white p-20 bd">
+            <h6 class="c-grey-900">Datos de {{producto.nameproduct}}</h6>
+            <div class="mT-30">
+            <form method='POST' action="{% url 'actuproducto' %}">{% csrf_token %}
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" value="{{producto.nameproduct}}"></input>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="numero">Costo del producto</label>
+                    <input type="text" class="form-control" name="costo" value="{{producto.costproduct}}">
+                </div>
+                </div>
+                <div class="form-group ">
+                <label for="inputAddress">Descripción </label>
+                <input type="text" class="form-control" name="descripcion" value="{{producto.description}}">
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                <label for="inputAddress">Descuento </label>
+                <input type="text" class="form-control" name="descuento" value="{{producto.disccount}}">
+                </div>
+                <div class="form-group col-md-6">
+                <label for="inputAddress2">Empresa</label>
+                <select name="empresa" class="form-control">
+                    {% ifequal  producto.company_companyid null%}
+                                <option selected="selected"> </option>
+                    {% else %}
+                                <option > </option>
+                    {% endifequal%}
+                    {% for company in companys %}
+                        
+                        {% ifequal  company.companyid producto.company_companyid.companyid%}
+                            <option selected="selected">{{company.name}}</option>
+                        {% else %}
+                            
+                            <option >{{company.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Tipo de producto</label>
+                    <select name="tipo" class="form-control">
+                    {% for tipo in tipos %}
+                        
+                        {% ifequal  tipo.typeproductid producto.typeproduct_typeproductid.typeproductid%}
+                            <option selected="selected">{{tipo.name}}</option>
+                        {% else %}
+                            <option >{{tipo.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputState">Estado del producto</label>
+                    <select name="estado" class="form-control">
+                    {% for estado in estados %}
+                        
+                        {% ifequal  estado.idproductstatus producto.idproductstatus.idproductstatus%}
+                            <option selected="selected">{{estado.productstatusdescription}}</option>
+                        {% else %}
+                            
+                            <option >{{estado.productstatusdescription}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+               
+                <div class="form-group">
+                
+                </div>
+                <input type="hidden" name="idpro" value="{{producto.productid}}">
+                <button type="submit" class="btn-custom">Guardar</button>
+            </form>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,119 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Datos de usuario {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-3"></div>
+        <div class="masonry-item col-md-3">
+        </div>
+        <div class="masonry-item col-md-6">
+        <div class="bgc-white p-20 bd">
+            <h6 class="c-grey-900">Datos del usuario</h6>
+            <div class="mT-30">
+            <form method='POST' action="{% url 'actuusuario' %}">{% csrf_token %}
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" value="{{usuario.accountname}}"></input>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="numero">Numero de telefono</label>
+                    <input type="text" class="form-control" name="numero" value="{{usuario.accountcellphone}}">
+                </div>
+                </div>
+                <div class="form-group">
+                <label for="inputAddress">Correo </label>
+                <input type="email" class="form-control" name="correo" value="{{usuario.accountemail}}">
+                </div>
+                <div class="form-group">
+                <label for="inputAddress2">Compañia</label>
+                <select name="company" class="form-control">
+                    {% ifequal  usuario.company_companyid null%}
+                                <option selected="selected"> </option>
+                    {% else %}
+                                <option > </option>
+                    {% endifequal%}
+                    {% for company in companys %}
+                        
+                        {% ifequal  company.companyid usuario.company_companyid.companyid%}
+                            <option selected="selected">{{company.name}}</option>
+                        {% else %}
+                            
+                            <option >{{company.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Rol</label>
+                    <select name="rol" class="form-control">
+                    {% for rol in roles %}
+                        
+                        {% ifequal  rol.rolid usuario.rol_rolid.rolid%}
+                            <option selected="selected">{{rol.name}}</option>
+                        {% else %}
+                            <option >{{rol.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputState">Estado</label>
+                    <select name="status" class="form-control">
+                    {% for estado in estados %}
+                        
+                        {% ifequal  estado.statususerid usuario.status_statusid.statususerid%}
+                            <option selected="selected">{{estado.name}}</option>
+                        {% else %}
+                            
+                            <option >{{estado.name}}</option>
+                        {% endifequal%}
+                    {% endfor %}
+                    </select>
+                </div>
+               
+                <div class="form-group">
+                
+                </div>
+                <input type="hidden" name="iduser" value="{{usuario.userid}}">
+                <button type="submit" class="btn-custom">Guardar</button>
+            </form>
+            </div>
+        </div>
+        </div>
+        
+    </div>
+    {% comment %} {% load log %}
+    {% get_admin_log 10 as admin_log for_user user %}
+    {% if not admin_log %}
+        <p>{% translate 'None available' %}</p>
+    {% else %}
+        <ul class="actionlist">
+        {% for entry in admin_log %}
+        <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+        {% if entry.is_deletion or not entry.get_admin_url %}
+            {{ entry.object_repr }}
+        {% else %}
+            <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+        {% endif %}
+        <br>
+        {% if entry.content_type %}
+            <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+        {% else %}
+            <span class="mini quiet">{% translate 'Unknown content' %}</span>
+        {% endif %}
+        </li>
+        {% endfor %}
+        </ul>
+    {% endif %} {% endcomment %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
