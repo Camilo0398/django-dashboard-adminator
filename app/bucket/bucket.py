@@ -43,6 +43,7 @@ def savepdf(pdf, comname,archiname):
         aws_secret_access_key='soauGukLFdj2paXb7lnueI9AykOadOD86yYoT2Kh'
     ).get_bucket_location(Bucket=bucket_name)['LocationConstraint']
     url = "https://s3-%s.amazonaws.com/%s/%s" % (location, bucket_name, key)
+    print("se adiciono")
     return url
 
 def borrarimg(comname,archiname):
@@ -57,3 +58,4 @@ def borrarimg(comname,archiname):
         aws_secret_access_key='soauGukLFdj2paXb7lnueI9AykOadOD86yYoT2Kh'
     )
     s3.Object(bucket_name, key).delete()
+    print("se elimino")

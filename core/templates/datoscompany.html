@@ -21,8 +21,8 @@
                         <div class="mx-auto mb-3" style="height: 150px; width: 150px;">
                             <div class="card h-100 overflow-hidden">
                                 <div class="position-relative h-100">
-                                    <input type="file" name="imgcom"class="custom-file-input position-absolute " style="height: 150px; width: 150px;">
-                                    <img class="card-img-top" src="{{company.imageurl}}" alt="company Img">
+                                    <input type="file" value="" name="imgcom"class="custom-file-input position-absolute "id="imcom" style="height: 150px; width: 150px;">
+                                    <img class="card-img-top" src="{{company.imageurl}}"id="imgcomsh" alt="company Img" style="height: 150px; width: 150px;">
                                 </div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="row"></div>
                             <div class="col-md-2 align-self-center text-center">
-                                <a   class="c-pink-700 ti-plus" onclick="add_function({{company.companyid}})" style="font-size: 18px;"></a>
+                                <a   class="c-pink-700 ti-plus" onclick="add_function({{company.companyid}})" style="font-size: 18px;cursor:pointer;"></a>
                             </div>
                         </div>
                     </div>
@@ -172,8 +172,8 @@
                                 <div class="mx-auto mb-3" style="height: 100%; width: 100%;">
                                     <div class="card h-100 overflow-hidden">
                                         <div class="position-relative h-100">
-                                            <input type="file" class="custom-file-input position-absolute " style="height: 100%; width: 100%;" name="imgappena" ></input>
-                                            <img class="card-img-top"  src="{{company.imageappenabled}}" alt="company Img">
+                                            <input type="file" class="custom-file-input position-absolute " style="height: 100%; width: 100%;" name="imgappena"id="imgappena" ></input>
+                                            <img class="card-img-top"  src="{{company.imageappenabled}}" id="enash"alt="company Img" style="height: 100%; width: 100%;">
                                         </div>
                                     </div>
                                 </div>
@@ -182,8 +182,8 @@
                                 <div class="mx-auto mb-3" style="height: 100%; width: 100%;">
                                     <div class="card h-100 overflow-hidden">
                                         <div class="position-relative h-100">
-                                            <input type="file" name="imgappdisa"class="custom-file-input position-absolute " style="height: 100%; width: 100%;" id="validatedCustomFile" ></input>
-                                            <img class="card-img-top"  src="{{company.imageappdisabled}}" alt="company Img">
+                                            <input type="file" name="imgappdisa"id="imgappdisa"class="custom-file-input position-absolute " style="height: 100%; width: 100%;" id="validatedCustomFile" ></input>
+                                            <img class="card-img-top"  src="{{company.imageappdisabled}}" id="disash"alt="company Img" style="height: 100%; width: 100%;">
                                         </div>
                                     </div>
                                 </div>
@@ -288,5 +288,25 @@
             }
         });
     };
+    $(document).ready(function() {
+        $(document).on('change', '#imcom', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#imgcomsh').attr('src', TmpPath);
+        });
+        
+        $(document).on('change','#imgappdisa', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#disash').attr('src', TmpPath);
+        });
+        $(document).on('change', '#imgappena', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#enash').attr('src', TmpPath);
+            console.log("holala")
+        });
+    });
+    
 </script>
 {% endblock javascripts %}

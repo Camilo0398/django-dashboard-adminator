@@ -208,38 +208,47 @@ def datosproducto(request):
 def actuproducto(request):
     context = {}
     company = {}
-    try:
-        if request.method=='POST':
-            idpro= request.POST['idpro']
-            nombre = request.POST['nombre'] 
-            costo = request.POST['costo']
-            descripcion  = request.POST['descripcion']
-            descuento  = request.POST['descuento']
-            company = request.POST['empresa']
-            tipo = request.POST['tipo']
-            estado = request.POST['estado']
-            producto=models.Product.objects.get(productid=idpro)
-            producto.nameproduct = nombre
-            producto.costproduct = costo
-            producto.description = descripcion
-            producto.disccount = descuento
-            if (company!=''):
-                producto.company_companyid = models.Company.objects.get(name=company)
-            if (tipo!=''):
-                producto.rol_rolid = models.Typeproduct.objects.get(name=tipo)
-            if (estado!=''):
-                producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
-            producto.save()
-        return redirect(productos)
-    except template.TemplateDoesNotExist:
+    # try:
+    if request.method=='POST':
+        idpro= request.POST['idpro']
+        nombre = request.POST['nombre'] 
+        costo = request.POST['costo']
+        descripcion  = request.POST['descripcion']
+        descuento  = request.POST['descuento']
+        company = request.POST['empresa']
+        tipo = request.POST['tipo']
+        estado = request.POST['estado']
+        producto=models.Product.objects.get(productid=idpro)
+        producto.nameproduct = nombre
+        producto.costproduct = costo
+        producto.description = descripcion
+        producto.disccount = descuento
+        company2=models.Company.objects.get(name=company)
+        name=company2.name
+        if 'imgpro' in request.FILES:
+            urlname = producto.imageurl
+            bucket.borrarimg(name,urlname)
+            imagen = request.FILES['imgpro']
+            imgname = request.FILES['imgpro'].name
+            urlcom= bucket.saveimage(imagen,name,imgname)
+            producto.imageurl =urlcom
+        if (company!=''):
+            producto.company_companyid = models.Company.objects.get(name=company)
+        if (tipo!=''):
+            producto.rol_rolid = models.Typeproduct.objects.get(name=tipo)
+        if (estado!=''):
+            producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
+        producto.save()
+    return redirect(productos)
+    # except template.TemplateDoesNotExist:
 
-        html_template = loader.get_template( 'page-404.html' )
-        return HttpResponse(html_template.render(context, request))
+    #     html_template = loader.get_template( 'page-404.html' )
+    #     return HttpResponse(html_template.render(context, request))
 
-    except:
+    # except:
     
-        html_template = loader.get_template( 'page-500.html' )
-        return HttpResponse(html_template.render(context, request))
+    #     html_template = loader.get_template( 'page-500.html' )
+    #     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
 def actucompany(request):
@@ -354,3 +363,19 @@ def adicionar(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
+
+@login_required(login_url="/login/")
+def adduser(request):
+    context = {}
+    try:
+        return render(request,'adduser.html')
+        
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))

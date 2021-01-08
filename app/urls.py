@@ -19,6 +19,7 @@ urlpatterns = [
     path('planes', views.planes, name='planes'),
     path('el', views.eliminar, name='eliminar'),
     path('add', views.adicionar, name='adicionar'),
+    path('adduser', views.adduser, name='adduser'),
     path('usuarios.datosusuario', views.datosusuario, name='datosusuario'),
     path('companys.datoscompany', views.datoscompany, name='datoscompany'),
     path('companys.datosproducto', views.datosproducto, name='datosproducto'),
