@@ -9,6 +9,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from app import models
+from app.bucket import bucket
 
 
 
@@ -61,8 +62,7 @@ def actuusuario(request):
             if (estado!=''):
                 usuario.status_statusid =models.Statususer.objects.get(name=estado)
             usuario.save()
-        usuarios=models.User.objects.all()
-        return render(request,"Clientes.html",{'clientes':usuarios})
+        return redirect(usuarios)
     except template.TemplateDoesNotExist:
 
         html_template = loader.get_template( 'page-404.html' )
@@ -169,7 +169,7 @@ def datosusuario(request):
 
 @login_required(login_url="/login/")
 def datoscompany(request):
-    context = {}
+    
 
     if request.method=='POST':
         idcom= request.POST['idcom']
@@ -177,7 +177,9 @@ def datoscompany(request):
         statuscompany=models.Statuscompany.objects.all()
         companytype=models.Companytype.objects.all()
         appformulary=models.Appformulary.objects.all()
-        return render(request,"datoscompany.html",{'company':company,'estados':statuscompany,'tipos':companytype,'formularios':appformulary})
+        company_city=models.CompanyCity.objects.all()
+        city=models.City.objects.all()
+        return render(request,"datoscompany.html",{'company':company,'estados':statuscompany,'tipos':companytype,'formularios':appformulary,'citycompany':company_city,'citys':city})
 
 @login_required(login_url="/login/")
 def datosproducto(request):
@@ -228,8 +230,7 @@ def actuproducto(request):
             if (estado!=''):
                 producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
             producto.save()
-        productos = models.Product.objects.all()
-        return render(request,"productos.html",{'productos':productos,'company':company})
+        return redirect(productos)
     except template.TemplateDoesNotExist:
 
         html_template = loader.get_template( 'page-404.html' )
@@ -246,28 +247,54 @@ def actucompany(request):
     company = {}
     try:
         if request.method=='POST':
-            idpro= request.POST['idpro']
-            nombre = request.POST['nombre'] 
-            costo = request.POST['costo']
-            descripcion  = request.POST['descripcion']
-            descuento  = request.POST['descuento']
-            company = request.POST['empresa']
-            tipo = request.POST['tipo']
+            idcom= request.POST['idcom']
+       
+            direccion = request.POST['direccion']
+            contactnom  = request.POST['contactnom']
+            contacttel  = request.POST['contacttel']
+            correo = request.POST['correo']
             estado = request.POST['estado']
-            producto=models.Product.objects.get(productid=idpro)
-            producto.nameproduct = nombre
-            producto.costproduct = costo
-            producto.description = descripcion
-            producto.disccount = descuento
-            if (company!=''):
-                producto.company_companyid = models.Company.objects.get(name=company)
-            if (tipo!=''):
-                producto.rol_rolid = models.Typeproduct.objects.get(name=tipo)
-            if (estado!=''):
-                producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
-            producto.save()
-        productos = models.Product.objects.all()
-        return render(request,"productos.html",{'productos':productos,'company':company})
+            tipo = request.POST['tipo']
+            appform = request.POST['formuapp']
+            company=models.Company.objects.get(companyid=idcom)
+            name= company.name
+            if 'rut' in request.FILES:
+                urlname = company.ruturl
+                bucket.borrarimg(name,urlname)
+                rut = request.FILES['rut']
+                namerut = request.FILES['rut'].name
+                urlcom= bucket.savepdf(rut,name,namerut)
+                company.ruturl =urlcom
+            if 'imgcom' in request.FILES:
+                urlname = company.imageurl
+                bucket.borrarimg(name,urlname)
+                imagencom = request.FILES['imgcom']
+                nameimagencom = request.FILES['imgcom'].name
+                urlcom= bucket.saveimage(imagencom,name,nameimagencom)
+                company.imageurl =urlcom
+            if 'imgappena' in request.FILES:
+                urlname = company.imageappenabled
+                bucket.borrarimg(name,urlname)
+                imgappena = request.FILES['imgappena']
+                nameimagappena = request.FILES['imgappena'].name
+                urlcom= bucket.saveimage(imgappena,name,nameimagappena)
+                company.imageappenabled =urlcom
+            if 'imgappdisa' in request.FILES:
+                urlname = company.imageappdisabled
+                bucket.borrarimg(name,urlname)
+                imgappdisa = request.FILES['imgappdisa']
+                nameimagappdisa = request.FILES['imgappdisa'].name
+                urlcom= bucket.saveimage(imgappdisa,name,nameimagappdisa)
+                company.imageappdisabled =urlcom
+            company.address = direccion
+            company.contactname = contactnom
+            company.contactphone = contacttel
+            company.contactEmail = correo
+            company.StatusCompany_statusCompanyId = models.Statuscompany.objects.get(name=estado)
+            company.companytype = models.Companytype.objects.get(companytypedescription=tipo)
+            company.AppFormularyID =models.Appformulary.objects.get(appformularydescription=appform)
+            company.save()
+        return redirect(companys)
     except template.TemplateDoesNotExist:
 
         html_template = loader.get_template( 'page-404.html' )
@@ -277,3 +304,53 @@ def actucompany(request):
     
         html_template = loader.get_template( 'page-500.html' )
         return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def tabla(request, companyid):
+    company=models.Company.objects.get(companyid=companyid)
+    city=models.City.objects.all()
+    CompanyCity=models.CompanyCity.objects.all()
+    if "filtrarHooks" in request.POST:
+        idcomc= request.POST['idcomc']
+        companycity=models.CompanyCity.objects.get(companycityid=idcomc)
+        companycity.delete()
+    return render(request,"tablacc.html",{'citys':city,'companycity':CompanyCity,'company':company})
+@login_required(login_url="/login/")
+def eliminar(request):
+    if request.method == 'GET':
+        param1 = request.GET.get('param_first')
+        companycity=models.CompanyCity.objects.get(companycityid=param1)
+        companycity.delete()
+
+
+        response_data = 'successful!'
+
+        return HttpResponse()
+
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+@login_required(login_url="/login/")
+def adicionar(request):
+    if request.method == 'GET':
+        company = request.GET.get('company')
+        city = request.GET.get('city')
+        valord = request.GET.get('valord')
+        companycity=models.CompanyCity()
+        companycity.company_companyid = company
+        companycity.city_idcity =city
+        companycity.deliveryvalue = valord
+        companycity.save()
+        print("se hizo wey")
+
+        response_data = 'successful!'
+
+        return HttpResponse()
+
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

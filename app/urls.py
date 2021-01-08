@@ -17,9 +17,12 @@ urlpatterns = [
     path('companys', views.companys, name='companys'),
     path('productos', views.productos, name='productos'),
     path('planes', views.planes, name='planes'),
+    path('el', views.eliminar, name='eliminar'),
+    path('add', views.adicionar, name='adicionar'),
     path('usuarios.datosusuario', views.datosusuario, name='datosusuario'),
     path('companys.datoscompany', views.datoscompany, name='datoscompany'),
     path('companys.datosproducto', views.datosproducto, name='datosproducto'),
+    path('tablacc<companyid>', views.tabla, name='tabla'),
     # # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
 
