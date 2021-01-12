@@ -235,7 +235,7 @@ def actuproducto(request):
         if (company!=''):
             producto.company_companyid = models.Company.objects.get(name=company)
         if (tipo!=''):
-            producto.rol_rolid = models.Typeproduct.objects.get(name=tipo)
+            producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
         if (estado!=''):
             producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
         producto.save()
@@ -352,9 +352,6 @@ def adicionar(request):
         companycity.city_idcity =city
         companycity.deliveryvalue = valord
         companycity.save()
-        print("se hizo wey")
-
-        response_data = 'successful!'
 
         return HttpResponse()
 
@@ -379,3 +376,68 @@ def adduser(request):
     
         html_template = loader.get_template( 'page-500.html' )
         return HttpResponse(html_template.render(context, request))
+        addproduct
+@login_required(login_url="/login/")
+def addproduct(request):
+    context = {}
+    try:
+        
+        productstatus=models.Productstatus.objects.all()
+        company=models.Company.objects.all()
+        typeproduct=models.Typeproduct.objects.all()
+        return render(request,"addproduct.html",{'estados':productstatus,'companys':company,'tipos':typeproduct})
+        
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def crearproducto(request):
+    # context = {}
+    # try:
+    if request.method=='POST':
+        idpro= request.POST['idpro']
+        nombre = request.POST['nombre'] 
+        costo = request.POST['costo']
+        descripcion  = request.POST['descripcion']
+        descuento  = request.POST['descuento']
+        company = request.POST['empresa']
+        tipo = request.POST['tipo']
+        estado = request.POST['estado']
+        producto=models.Product()
+        producto.nameproduct = nombre
+        producto.costproduct = costo
+        producto.description = descripcion
+        producto.disccount = descuento
+        company2=models.Company.objects.get(name=company)
+        name=company2.name
+        if 'imgpro' in request.FILES:
+            urlname = producto.imageurl
+            bucket.borrarimg(name,urlname)
+            imagen = request.FILES['imgpro']
+            imgname = request.FILES['imgpro'].name
+            urlcom= bucket.saveimage(imagen,name,imgname)
+            producto.imageurl =urlcom
+        if (company!=''):
+            producto.company_companyid = models.Company.objects.get(name=company)
+        if (tipo!=''):
+            producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
+        if (estado!=''):
+            producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
+        producto.save()
+    return redirect(productos)
+    # except template.TemplateDoesNotExist:
+
+    #     html_template = loader.get_template( 'page-404.html' )
+    #     return HttpResponse(html_template.render(context, request))
+
+    # except:
+    
+    #     html_template = loader.get_template( 'page-500.html' )
+    #     return HttpResponse(html_template.render(context, request))
