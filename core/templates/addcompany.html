@@ -1,0 +1,188 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Datos de {{company.name}} {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row gap-20 masonry pos-r align-items-center" >
+        <div class="masonry-sizer col-md-2"></div>
+        <div class="masonry-item col-md-2">
+        </div>
+        <div class="masonry-item col-md-8">
+        <div class="bgc-white p-20 bd">
+        <h3 class="c-grey-900">Informacion empresarial</h3>
+            
+            <form method='POST' action="{% url 'crearcompany' %}" enctype="multipart/form-data">{% csrf_token %}
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="mx-auto mb-3" style="height: 150px; width: 150px;">
+                            <div class="card h-100 overflow-hidden">
+                                <div class="position-relative h-100">
+                                    <input type="file" value="" name="imgcom"class="custom-file-input position-absolute "id="imcom" style="height: 150px; width: 150px;">
+                                    <img class="card-img-top" src="https://api.teella.com/public/img/user_placeholder.png"id="imgcomsh" alt="company Img" style="height: 150px; width: 150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-row">
+                            <div class="form-group col-md-12 ">
+                                <label>Nombre de la compañia</label>
+                                <input type="text" class="form-control" name="nombre"></input>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label> NIT</label>
+                                <input type="text" class="form-control" name="NIT"></input>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>Dirección</label>
+                                <input type="text" class="form-control" name="direccion"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr size="100" />
+                <h3 class="c-grey-900">Informacion de contacto</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="numero">Nombre</label>
+                        <input type="text" class="form-control" name="contactnom">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="numero">Numero de Teléfono</label>
+                        <input type="text" class="form-control" name="contacttel" >
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputAddress">Correo electrónico</label>
+                        <input type="email" class="form-control" name="correo">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputAddress2">Estado</label>
+                        <select name="estado" class="form-control">
+                            {% for estado in estados %}
+                                <option>{{estado.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCity">Tipo</label>
+                        <select name="tipo" class="form-control">
+                            {% for tipo in tipos %}
+                                <option>{{tipo.companytypedescription}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputState">Tipo formulario APP</label>
+                        <select name="formuapp" class="form-control">
+                            {% for formulario in formularios %}
+                                <option>{{formulario.appformularydescription}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <hr size="100" />
+                    <h3 class="c-grey-900">Información legal</h3>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="rut" >
+                        <label class="custom-file-label" for="validatedCustomFile">Rut_Innlab.pdf</label>
+                        <div class="invalid-feedback">Example invalid custom file feedback</div>
+                    </div>
+                                       
+                    <hr size="100" />
+                    <h3 class="c-grey-900">APP</h3>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="mx-auto mb-3" style="height: 100%; width: 100%;">
+                                    <div class="card h-100 overflow-hidden">
+                                        <div class="position-relative h-100">
+                                            <input type="file" class="custom-file-input position-absolute " style="height: 100%; width: 100%;" name="imgappena"id="imgappena" ></input>
+                                            <img class="card-img-top"  src="" id="enash" style="height: 100%; width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="mx-auto mb-3" style="height: 100%; width: 100%;">
+                                    <div class="card h-100 overflow-hidden">
+                                        <div class="position-relative h-100">
+                                            <input type="file" name="imgappdisa"id="imgappdisa"class="custom-file-input position-absolute " style="height: 100%; width: 100%;" id="validatedCustomFile" ></input>
+                                            <img class="card-img-top"  src="" id="disash" style="height: 100%; width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-custom">Guardar</button>
+                        <br></br>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    {% comment %} {% load log %}
+    {% get_admin_log 10 as admin_log for_user user %}
+    {% if not admin_log %}
+        <p>{% translate 'None available' %}</p>
+    {% else %}
+        <ul class="actionlist">
+        {% for entry in admin_log %}
+        <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+        {% if entry.is_deletion or not entry.get_admin_url %}
+            {{ entry.object_repr }}
+        {% else %}
+            <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+        {% endif %}
+        <br>
+        {% if entry.content_type %}
+            <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+        {% else %}
+            <span class="mini quiet">{% translate 'Unknown content' %}</span>
+        {% endif %}
+        </li>
+        {% endfor %}
+        </ul>
+    {% endif %} {% endcomment %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript">
+    
+
+    $(document).ready(function() {
+        $(document).on('change', '#imcom', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#imgcomsh').attr('src', TmpPath);
+        });
+        
+        $(document).on('change','#imgappdisa', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#disash').attr('src', TmpPath);
+        });
+        $(document).on('change', '#imgappena', function(e) {
+            console.log(e.target.files[0])
+            var TmpPath = URL.createObjectURL(e.target.files[0]);
+            $('#enash').attr('src', TmpPath);
+            console.log("holala")
+        });
+    });
+    
+</script>
+{% endblock javascripts %}

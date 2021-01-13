@@ -6,7 +6,7 @@ import boto3
 def saveimage(image, comname,archiname):
 
     bucket_name = "teella"
-    key = comname+'/Img/'+archiname
+    key = "pruebas/"+comname+'/Img/'+archiname
 
     s3 = boto3.resource(
         service_name='s3',
@@ -27,7 +27,7 @@ def saveimage(image, comname,archiname):
 def savepdf(pdf, comname,archiname):
 
     bucket_name = "teella"
-    key = comname+'/Docs/'+archiname
+    key = "pruebas/"+comname+'/Docs/'+archiname
 
     s3 = boto3.resource(
         service_name='s3',
@@ -49,7 +49,7 @@ def savepdf(pdf, comname,archiname):
 def borrarimg(comname,archiname):
     x = archiname.split("/")
     bucket_name = "teella"
-    key = comname+'/Img/'+x[len(x)-1]
+    key = "pruebas/"+comname+'/Img/'+x[len(x)-1]
 
     s3 = boto3.resource(
         service_name='s3',

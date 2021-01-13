@@ -299,9 +299,9 @@ def actucompany(request):
             company.contactname = contactnom
             company.contactphone = contacttel
             company.contactEmail = correo
-            company.StatusCompany_statusCompanyId = models.Statuscompany.objects.get(name=estado)
+            company.statuscompany_statuscompanyid = models.Statuscompany.objects.get(name=estado)
             company.companytype = models.Companytype.objects.get(companytypedescription=tipo)
-            company.AppFormularyID =models.Appformulary.objects.get(appformularydescription=appform)
+            company.appformularyid =models.Appformulary.objects.get(appformularydescription=appform)
             company.save()
         return redirect(companys)
     except template.TemplateDoesNotExist:
@@ -399,45 +399,123 @@ def addproduct(request):
 
 @login_required(login_url="/login/")
 def crearproducto(request):
-    # context = {}
-    # try:
-    if request.method=='POST':
-        idpro= request.POST['idpro']
-        nombre = request.POST['nombre'] 
-        costo = request.POST['costo']
-        descripcion  = request.POST['descripcion']
-        descuento  = request.POST['descuento']
-        company = request.POST['empresa']
-        tipo = request.POST['tipo']
-        estado = request.POST['estado']
-        producto=models.Product()
-        producto.nameproduct = nombre
-        producto.costproduct = costo
-        producto.description = descripcion
-        producto.disccount = descuento
-        company2=models.Company.objects.get(name=company)
-        name=company2.name
-        if 'imgpro' in request.FILES:
-            urlname = producto.imageurl
-            bucket.borrarimg(name,urlname)
-            imagen = request.FILES['imgpro']
-            imgname = request.FILES['imgpro'].name
-            urlcom= bucket.saveimage(imagen,name,imgname)
-            producto.imageurl =urlcom
-        if (company!=''):
-            producto.company_companyid = models.Company.objects.get(name=company)
-        if (tipo!=''):
-            producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
-        if (estado!=''):
-            producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
-        producto.save()
-    return redirect(productos)
-    # except template.TemplateDoesNotExist:
+    context = {}
+    try:
+        if request.method=='POST':
+            idpro= request.POST['idpro']
+            nombre = request.POST['nombre'] 
+            costo = request.POST['costo']
+            descripcion  = request.POST['descripcion']
+            descuento  = request.POST['descuento']
+            company = request.POST['empresa']
+            tipo = request.POST['tipo']
+            estado = request.POST['estado']
+            producto=models.Product()
+            producto.nameproduct = nombre
+            producto.costproduct = costo
+            producto.description = descripcion
+            producto.disccount = descuento
+            company2=models.Company.objects.get(name=company)
+            name=company2.name
+            if 'imgpro' in request.FILES:
+                urlname = producto.imageurl
+                bucket.borrarimg(name,urlname)
+                imagen = request.FILES['imgpro']
+                imgname = request.FILES['imgpro'].name
+                urlcom= bucket.saveimage(imagen,name,imgname)
+                producto.imageurl =urlcom
+            if (company!=''):
+                producto.company_companyid = models.Company.objects.get(name=company)
+            if (tipo!=''):
+                producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
+            if (estado!=''):
+                producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
+            producto.save()
+        return redirect(productos)
+    except template.TemplateDoesNotExist:
 
-    #     html_template = loader.get_template( 'page-404.html' )
-    #     return HttpResponse(html_template.render(context, request))
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
 
-    # except:
+    except:
     
-    #     html_template = loader.get_template( 'page-500.html' )
-    #     return HttpResponse(html_template.render(context, request))
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def addcompany(request):
+    context = {}
+    try:
+        statuscompany=models.Statuscompany.objects.all()
+        companytype=models.Companytype.objects.all()
+        appformulary=models.Appformulary.objects.all()
+        company_city=models.CompanyCity.objects.all()
+        city=models.City.objects.all()
+        return render(request,"addcompany.html",{'estados':statuscompany,'tipos':companytype,'formularios':appformulary,'citycompany':company_city,'citys':city})
+
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def crearcompany(request):
+    context = {}
+    company = {}
+    try:
+        if request.method=='POST':
+            name = request.POST['nombre']
+            nit = request.POST['NIT']
+            direccion = request.POST['direccion']
+            contactnom  = request.POST['contactnom']
+            contacttel  = request.POST['contacttel']
+            correo = request.POST['correo']
+            estado = request.POST['estado']
+            tipo = request.POST['tipo']
+            appform = request.POST['formuapp']
+            company=models.Company()
+            if 'rut' in request.FILES:
+                rut = request.FILES['rut']
+                namerut = request.FILES['rut'].name
+                urlcom= bucket.savepdf(rut,name,namerut)
+                company.ruturl =urlcom
+            if 'imgcom' in request.FILES:
+                imagencom = request.FILES['imgcom']
+                nameimagencom = request.FILES['imgcom'].name
+                urlcom= bucket.saveimage(imagencom,name,nameimagencom)
+                company.imageurl =urlcom
+            if 'imgappena' in request.FILES:
+                imgappena = request.FILES['imgappena']
+                nameimagappena = request.FILES['imgappena'].name
+                urlcom= bucket.saveimage(imgappena,name,nameimagappena)
+                company.imageappenabled =urlcom
+            if 'imgappdisa' in request.FILES:
+                imgappdisa = request.FILES['imgappdisa']
+                nameimagappdisa = request.FILES['imgappdisa'].name
+                urlcom= bucket.saveimage(imgappdisa,name,nameimagappdisa)
+                company.imageappdisabled =urlcom
+            company.name =name
+            company.nit = nit
+            company.address = direccion
+            company.contactname = contactnom
+            company.contactphone = contacttel
+            company.contactEmail = correo
+            company.statuscompany_statuscompanyid = models.Statuscompany.objects.get(name=estado)
+            company.companytype = models.Companytype.objects.get(companytypedescription=tipo)
+            company.appformularyid =models.Appformulary.objects.get(appformularydescription=appform)
+            company.save()
+        return redirect(companys)
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
