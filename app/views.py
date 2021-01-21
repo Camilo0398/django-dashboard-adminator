@@ -9,13 +9,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from app import models
-from app.bucket import bucket
-
-
-
-@login_required(login_url="/login/")
-def index(request):
-    return render(request, "index.html")
+from app.logica import bucket, mail, archivo, graficas
 
 @login_required(login_url="/login/")
 def pages(request):
@@ -208,47 +202,51 @@ def datosproducto(request):
 def actuproducto(request):
     context = {}
     company = {}
-    # try:
-    if request.method=='POST':
-        idpro= request.POST['idpro']
-        nombre = request.POST['nombre'] 
-        costo = request.POST['costo']
-        descripcion  = request.POST['descripcion']
-        descuento  = request.POST['descuento']
-        company = request.POST['empresa']
-        tipo = request.POST['tipo']
-        estado = request.POST['estado']
-        producto=models.Product.objects.get(productid=idpro)
-        producto.nameproduct = nombre
-        producto.costproduct = costo
-        producto.description = descripcion
-        producto.disccount = descuento
-        company2=models.Company.objects.get(name=company)
-        name=company2.name
-        if 'imgpro' in request.FILES:
-            urlname = producto.imageurl
-            bucket.borrarimg(name,urlname)
-            imagen = request.FILES['imgpro']
-            imgname = request.FILES['imgpro'].name
-            urlcom= bucket.saveimage(imagen,name,imgname)
-            producto.imageurl =urlcom
-        if (company!=''):
-            producto.company_companyid = models.Company.objects.get(name=company)
-        if (tipo!=''):
-            producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
-        if (estado!=''):
-            producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
-        producto.save()
-    return redirect(productos)
-    # except template.TemplateDoesNotExist:
+    try:
+        if request.method=='POST':
+            idpro= request.POST['idpro']
+            nombre = request.POST['nombre'] 
+            costo = request.POST['costo']
+            descripcion  = request.POST['descripcion']
+            
+            if request.POST['descuento']:
+                descuento  = request.POST['descuento']
+            else:
+                descuento = 0
+            company = request.POST['empresa']
+            tipo = request.POST['tipo']
+            estado = request.POST['estado']
+            producto=models.Product.objects.get(productid=idpro)
+            producto.nameproduct = nombre
+            producto.costproduct = costo
+            producto.description = descripcion
+            producto.disccount = descuento
+            company2=models.Company.objects.get(name=company)
+            name=company2.name
+            if 'imgpro' in request.FILES:
+                urlname = producto.imageurl
+                bucket.borrarimg(name,urlname)
+                imagen = request.FILES['imgpro']
+                imgname = request.FILES['imgpro'].name
+                urlcom= bucket.saveimage(imagen,name,imgname)
+                producto.imageurl =urlcom
+            if (company!=''):
+                producto.company_companyid = models.Company.objects.get(name=company)
+            if (tipo!=''):
+                producto.typeproduct_typeproductid = models.Typeproduct.objects.get(name=tipo)
+            if (estado!=''):
+                producto.productstatusid =models.Productstatus.objects.get(productstatusdescription=estado)
+            producto.save()
+        return redirect(productos)
+    except template.TemplateDoesNotExist:
 
-    #     html_template = loader.get_template( 'page-404.html' )
-    #     return HttpResponse(html_template.render(context, request))
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
 
-    # except:
+    except:
     
-    #     html_template = loader.get_template( 'page-500.html' )
-    #     return HttpResponse(html_template.render(context, request))
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
 def actucompany(request):
@@ -406,7 +404,10 @@ def crearproducto(request):
             nombre = request.POST['nombre'] 
             costo = request.POST['costo']
             descripcion  = request.POST['descripcion']
-            descuento  = request.POST['descuento']
+            if request.POST['descuento']:
+                descuento  = request.POST['descuento']
+            else:
+                descuento = 0
             company = request.POST['empresa']
             tipo = request.POST['tipo']
             estado = request.POST['estado']
@@ -510,6 +511,67 @@ def crearcompany(request):
             company.appformularyid =models.Appformulary.objects.get(appformularydescription=appform)
             company.save()
         return redirect(companys)
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def emails(request):
+
+    context = {}
+    try:
+        if request.method=='POST':
+            asunto = request.POST['asunto']
+            if request.POST['dest']:
+                destinatarios = str(request.POST['dest'])
+                destinatarios = destinatarios.split(",")
+            else:
+                destinatarios = models.User.objects.values_list('accountemail', flat=True)
+                
+            html = request.FILES['html']
+            var = archivo.arreglarhtml(html)
+            print(var)
+            for destinatario in destinatarios:
+                mail.enviarmail(destinatario,asunto,var)
+        return render(request,"emails.html")
+    
+    except template.TemplateDoesNotExist:
+
+        html_template = loader.get_template( 'page-404.html' )
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+    
+        html_template = loader.get_template( 'page-500.html' )
+        return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def dashboard(request):
+    context={}
+    try:
+        isonline = models.User.objects.values_list('isonline', flat=True)
+        isnewuser = models.User.objects.values_list('isnewuser', flat=True)
+        status_statusid = models.User.objects.values_list('status_statusid', flat=True)
+        creados = models.User.objects.values_list('createdat', flat=True)
+        mesestrans = models.Transactionpaymentgateway.objects.values_list('creationdatetime', flat=True)
+        statustrans = models.Transactionpaymentgateway.objects.values_list('statuspayment_statuspaymentid', flat=True)
+        status = graficas.statustrans(statustrans)
+        meses= graficas.usuariospormes(creados)
+        trans= graficas.usuariospormes(mesestrans)
+        trans1= graficas.usuariospormespas(creados)
+        vals =graficas.valsuser(isonline,isnewuser,status_statusid)
+        companys = models.Company.objects.all()
+        productos = models.Product.objects.all()
+
+        return render(request, "index.html",{'vals':vals,'meses':meses,'trans': trans,'trans1': trans1,'statustrans': status,'productos': productos,})
     except template.TemplateDoesNotExist:
 
         html_template = loader.get_template( 'page-404.html' )

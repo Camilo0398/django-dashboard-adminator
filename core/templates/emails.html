@@ -1,0 +1,54 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Forms {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container col-md-12">
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8 ">
+    <form method='POST' action="{% url 'emails' %}" enctype="multipart/form-data">{% csrf_token %}
+        
+        <div class="bgc-white p-20 bd">
+        
+        <h6 class="c-grey-900 card-header">Envio de Emails</h6>
+        <div class="mT-30">
+            <div class="row">
+            <div class="col-md-12 mb-3">
+                <label for="validationCustom01">asunto</label>
+                <input type="text" class="form-control" name="asunto" placeholder="Subject"  required>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label for="validationCustom02">Destinatarios</label>
+                <textarea class="form-control" style="height: 37px;"name="dest" placeholder="Para: " ></textarea>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input"name="html" >
+                    <label class="custom-file-label" for="validatedCustomFile">Archivo.html</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                </div>
+            </div>
+                
+            </div>
+            <button class="btn-custom" type="submit">Enviar mail</button>
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                
+            </script>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-2"></div>
+</div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

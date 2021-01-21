@@ -13,7 +13,8 @@
         </div>
         <div class="masonry-item col-md-8">
         <div class="bgc-white p-20 bd">
-        <h3 class="c-grey-900">Informacion empresarial</h3>
+        <h3 class="c-grey-900">adicionar nueva compañia</h3>
+        <h4 class="c-grey-900">Informacion empresarial</h4>
             
             <form method='POST' action="{% url 'crearcompany' %}" enctype="multipart/form-data">{% csrf_token %}
                 <div class="row align-items-center">
@@ -46,7 +47,7 @@
                     </div>
                 </div>
                 <hr size="100" />
-                <h3 class="c-grey-900">Informacion de contacto</h3>
+                <h4 class="c-grey-900">Informacion de contacto</h4>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="numero">Nombre</label>
@@ -91,7 +92,7 @@
                 </div>
                 <div class="form-group">
                     <hr size="100" />
-                    <h3 class="c-grey-900">Información legal</h3>
+                    <h4 class="c-grey-900">Información legal</h4>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="rut" >
                         <label class="custom-file-label" for="validatedCustomFile">Rut_Innlab.pdf</label>
@@ -99,7 +100,7 @@
                     </div>
                                        
                     <hr size="100" />
-                    <h3 class="c-grey-900">APP</h3>
+                    <h4 class="c-grey-900">APP</h4>
                     <div class="form-group">
                         <div class="form-row">
                             <div class="form-group col-md-6">

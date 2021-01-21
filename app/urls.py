@@ -9,7 +9,7 @@ from app import views
 urlpatterns = [
 
     # The home page
-    path('', views.index, name='home'),
+    path('', views.dashboard, name='home'),
     path('actuusuario', views.actuusuario, name='actuusuario'),
     path('actuproducto', views.actuproducto, name='actuproducto'),
     path('actucompany', views.actucompany, name='actucompany'),
@@ -24,6 +24,7 @@ urlpatterns = [
     path('adduser', views.adduser, name='adduser'),
     path('addproduct', views.addproduct, name='addproduct'),
     path('addcompany', views.addcompany, name='addcompany'),
+    path('emails', views.emails, name='emails'),
     path('usuarios.datosusuario', views.datosusuario, name='datosusuario'),
     path('companys.datoscompany', views.datoscompany, name='datoscompany'),
     path('companys.datosproducto', views.datosproducto, name='datosproducto'),
