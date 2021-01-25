@@ -1,0 +1,130 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container col-md-8">
+<div class="row ">
+  <div class="col-md-6" >
+    <div class="card mx-auto">
+      <h4 class="text-center">Estado de usuarios</h4>
+      <canvas id="mygraficu" height="300"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6" >
+    <div class="card mx-auto">
+        <h4 class="text-center">Registro de usuarios</h4>
+        <canvas id="mygraficut" height="300" ></canvas>
+    </div>
+  </div>  
+  <div class="col-md-6" >
+    <div class="card mx-auto">
+        <h4 class="text-center">Tranferencias realizadas</h4>
+        <canvas id="mygrafictrans" height="300"></canvas>
+    </div>
+  </div>  
+  <div class="col-md-6" >
+
+    <div class="card mx-auto">
+        <h4 class="text-center">Estado de transacciones</h4>
+        <canvas id="mygraficstatrans" height="300"></canvas>
+    </div>
+  </div>  
+</div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js" integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g==" crossorigin="anonymous" />
+<script>
+  let miCanvasu=document.getElementById("mygraficu").getContext("2d");
+  let miCanvasut=document.getElementById("mygraficut").getContext("2d");
+  let miCanvastrans=document.getElementById("mygrafictrans").getContext("2d");
+  let miCanvasstatrans=document.getElementById("mygraficstatrans").getContext("2d");
+  var chartu = new Chart(miCanvasu,{
+    type: "horizontalBar",
+    data: { 
+      labels: ["Nuevos usuarios","Usuarios online","Usuarios activos"],
+      
+      datasets: [
+        {
+          backgroundColor: [
+                  'rgba(157, 248, 139, 0.3)',
+                  'rgba(54, 162, 235, 0.3)',
+                  'rgba(216, 130, 229, 0.3)',
+          ],
+          borderColor: [
+                  'rgba(157, 248, 139, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(216, 130, 229, 1)',
+          ],
+          borderWidth: 1,
+          label: "usuarios",
+          data: ["{{vals.1}}","{{vals.0}}","{{vals.2}}"]
+      },
+    ]
+    
+    },
+  })
+  var chartut = new Chart(miCanvasut,{
+    type: "line",
+    data: { 
+      labels: ["Octubre","Noviembre","Diciembre","Enero"],
+      datasets: [
+        {
+          label: "Año actual",
+          backgroundColor: 'transparent',
+          lineTension: 0,
+          borderColor: 'blue',
+          data: ["{{meses.3}}","{{meses.2}}","{{meses.1}}","{{meses.0}}"]
+      },
+      {
+          label: "Año pasado",
+          backgroundColor: 'transparent',
+          lineTension: 0,
+          borderColor: 'red',
+          data: ["{{trans1.3}}","{{trans1.2}}","{{trans1.1}}","{{trans1.0}}"]
+      },
+    ]
+    }
+  })
+  var charttrans = new Chart(miCanvastrans,{
+    type: "line",
+    data: { 
+      labels: ["Octubre","Noviembre","Diciembre","Enero"],
+      datasets: [
+        {
+          label: "Tranferencias por mes",
+          backgroundColor: 'rgba(255,80,80,0.3 )',
+          lineTension: 0,
+          borderColor: 'rgba(255,80,80,1)',
+          data: ["{{trans.3}}","{{trans.2}}","{{trans.1}}","{{trans.0}}"]
+      },
+    ]
+    }
+  })
+  var chartstatrans = new Chart(miCanvasstatrans,{
+    type: 'pie',
+      data: {
+          labels: ['Pendientes', 'Confirmados', 'Cancelados'],
+          datasets: [{
+              label: 'Transacciones',
+              data: ["{{statustrans.0}}", "{{statustrans.1}}", "{{statustrans.2}}"],
+              backgroundColor: [
+                  'rgba(255, 206, 86, 1)',  
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)',
+              ],
+          }]
+      },
+      
+  });
+
+</script>
+{% endblock javascripts %}

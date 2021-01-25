@@ -537,7 +537,6 @@ def emails(request):
                 
             html = request.FILES['html']
             var = archivo.arreglarhtml(html)
-            print(var)
             for destinatario in destinatarios:
                 mail.enviarmail(destinatario,asunto,var)
         return render(request,"emails.html")

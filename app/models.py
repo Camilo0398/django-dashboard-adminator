@@ -1,16 +1,20 @@
-
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.contrib.auth.models import User
-
 
 
 class Academiclevel(models.Model):
     academiclevelid = models.AutoField(db_column='academicLevelId', primary_key=True)  # Field name made lowercase.
     name = models.CharField(unique=True, max_length=50, blank=True, null=True)
 
-    class Meta: 
+    class Meta:
         managed = False
-        db_table = 'academiclevel'
+        db_table = 'AcademicLevel'
 
 
 class Address(models.Model):
@@ -28,7 +32,7 @@ class Address(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'address'
+        db_table = 'Address'
 
 
 class Ambulancetogoservice(models.Model):
@@ -43,7 +47,7 @@ class Ambulancetogoservice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'ambulancetogoservice'
+        db_table = 'AmbulanceToGoService'
 
 
 class Ambulancetogoserviceplan(models.Model):
@@ -54,7 +58,7 @@ class Ambulancetogoserviceplan(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'ambulancetogoserviceplan'
+        db_table = 'AmbulanceToGoServicePlan'
 
 
 class Appformulary(models.Model):
@@ -64,7 +68,7 @@ class Appformulary(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'appformulary'
+        db_table = 'AppFormulary'
 
 
 class Assistant(models.Model):
@@ -107,7 +111,7 @@ class Assistant(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'assistant'
+        db_table = 'Assistant'
 
 
 class Availability(models.Model):
@@ -120,7 +124,7 @@ class Availability(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'availability'
+        db_table = 'Availability'
 
 
 class Avatar(models.Model):
@@ -129,7 +133,7 @@ class Avatar(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'avatar'
+        db_table = 'Avatar'
 
 
 class Cancellation(models.Model):
@@ -142,7 +146,7 @@ class Cancellation(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'cancellation'
+        db_table = 'Cancellation'
 
 
 class City(models.Model):
@@ -153,7 +157,7 @@ class City(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'city'
+        db_table = 'City'
 
 
 class Cityplanday(models.Model):
@@ -163,7 +167,7 @@ class Cityplanday(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'cityplanday'
+        db_table = 'CityPlanDay'
 
 
 class Company(models.Model):
@@ -187,7 +191,7 @@ class Company(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'company'
+        db_table = 'Company'
 
 
 class CompanyCity(models.Model):
@@ -198,18 +202,8 @@ class CompanyCity(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'company_city'
+        db_table = 'Company_City'
         unique_together = (('city_idcity', 'company_companyid'),)
-
-
-class Companytype(models.Model):
-    idcompanytype = models.AutoField(db_column='idcompanyType', primary_key=True)  # Field name made lowercase.
-    companytypedescription = models.CharField(db_column='companyTypeDescription', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    companytypeimageurl = models.CharField(db_column='companyTypeImageUrl', max_length=255, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'companytype'
 
 
 class Country(models.Model):
@@ -218,7 +212,7 @@ class Country(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'country'
+        db_table = 'Country'
 
 
 class Coupon(models.Model):
@@ -231,7 +225,7 @@ class Coupon(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'coupon'
+        db_table = 'Coupon'
 
 
 class Currencycode(models.Model):
@@ -240,7 +234,7 @@ class Currencycode(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'currencycode'
+        db_table = 'CurrencyCode'
 
 
 class Device(models.Model):
@@ -253,17 +247,7 @@ class Device(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'device'
-
-
-class DeviceNotification(models.Model):
-    deviceid = models.OneToOneField(Device, models.DO_NOTHING, db_column='Deviceid', primary_key=True)  # Field name made lowercase.
-    notificationid = models.ForeignKey('Notification', models.DO_NOTHING, db_column='Notificationid')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'device_notification'
-        unique_together = (('deviceid', 'notificationid'),)
+        db_table = 'Device'
 
 
 class Deviceos(models.Model):
@@ -272,33 +256,17 @@ class Deviceos(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'deviceos'
+        db_table = 'DeviceOS'
 
 
-class Diasnoticimagesservice(models.Model):
-    iddiasnoticimagesservice = models.AutoField(db_column='iddiasnoticImagesService', primary_key=True)  # Field name made lowercase.
-    diasnoticimagesserviceaddress = models.CharField(db_column='diasnoticImagesServiceAddress', max_length=128, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesserviceuserphone = models.CharField(db_column='diasnoticImagesServiceUserPhone', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesserviceusername = models.CharField(db_column='diasnoticImagesServiceUserName', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesserviceemail = models.CharField(db_column='diasnoticImagesServiceEmail', max_length=128, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesservicevalue = models.CharField(db_column='diasnoticImagesServiceValue', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesserviceplan_iddiasnoticimagesserviceplan = models.ForeignKey('Diasnoticimagesserviceplan', models.DO_NOTHING, db_column='diasnoticImagesServicePlan_iddiasnoticImagesServicePlan')  # Field name made lowercase.
-    diasnoticimagesserviceuserid = models.ForeignKey('User', models.DO_NOTHING, db_column='diasnoticImagesServiceUserId')  # Field name made lowercase.
-    diasnoticimagesservicetransaction = models.ForeignKey('Transactionpaymentgateway', models.DO_NOTHING, db_column='diasnoticImagesServiceTransaction', blank=True, null=True)  # Field name made lowercase.
+class DeviceNotification(models.Model):
+    deviceid = models.ForeignKey(Device, models.DO_NOTHING, db_column='Deviceid', primary_key=True)  # Field name made lowercase.
+    notificationid = models.ForeignKey('Notification', models.DO_NOTHING, db_column='Notificationid')  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'diasnoticimagesservice'
-
-
-class Diasnoticimagesserviceplan(models.Model):
-    iddiasnoticimagesserviceplan = models.AutoField(db_column='iddiasnoticImagesServicePlan', primary_key=True)  # Field name made lowercase.
-    diasnoticimagesserviceplandescription = models.CharField(db_column='diasnoticImagesServicePlanDescription', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    diasnoticimagesserviceplanvalue = models.CharField(db_column='diasnoticImagesServicePlanValue', max_length=45, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'diasnoticimagesserviceplan'
+        db_table = 'Device_Notification'
+        unique_together = (('deviceid', 'notificationid'),)
 
 
 class Doctype(models.Model):
@@ -307,7 +275,7 @@ class Doctype(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'doctype'
+        db_table = 'DocType'
 
 
 class Family(models.Model):
@@ -338,7 +306,7 @@ class Family(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'family'
+        db_table = 'Family'
 
 
 class Frequency(models.Model):
@@ -347,7 +315,7 @@ class Frequency(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'frequency'
+        db_table = 'Frequency'
 
 
 class Holiday(models.Model):
@@ -357,7 +325,7 @@ class Holiday(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'holiday'
+        db_table = 'Holiday'
         unique_together = (('holidayid', 'country_idcountry'),)
 
 
@@ -370,7 +338,7 @@ class Messagechat(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'messagechat'
+        db_table = 'MessageChat'
 
 
 class Messagesupport(models.Model):
@@ -382,7 +350,7 @@ class Messagesupport(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'messagesupport'
+        db_table = 'MessageSupport'
 
 
 class Mobility(models.Model):
@@ -391,7 +359,7 @@ class Mobility(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'mobility'
+        db_table = 'Mobility'
 
 
 class Notification(models.Model):
@@ -411,7 +379,7 @@ class Notification(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'notification'
+        db_table = 'Notification'
 
 
 class Permission(models.Model):
@@ -420,7 +388,7 @@ class Permission(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'permission'
+        db_table = 'Permission'
 
 
 class Pillbox(models.Model):
@@ -436,7 +404,7 @@ class Pillbox(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'pillbox'
+        db_table = 'Pillbox'
 
 
 class Plan(models.Model):
@@ -449,18 +417,7 @@ class Plan(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'plan'
-
-
-class PlanHasPlandays(models.Model):
-    idplanhasdays = models.AutoField(db_column='IdPlanHasDays', primary_key=True)  # Field name made lowercase.
-    plan_idplan = models.ForeignKey(Plan, models.DO_NOTHING, db_column='Plan_idPlan', blank=True, null=True)  # Field name made lowercase.
-    plandays_idplandays = models.ForeignKey('Plandays', models.DO_NOTHING, db_column='PlanDays_idPlanDays', blank=True, null=True)  # Field name made lowercase.
-    numberofdays = models.IntegerField(db_column='NumberOfDays')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'plan_has_plandays'
+        db_table = 'Plan'
 
 
 class Plandays(models.Model):
@@ -469,7 +426,18 @@ class Plandays(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'plandays'
+        db_table = 'PlanDays'
+
+
+class PlanHasPlandays(models.Model):
+    idplanhasdays = models.AutoField(db_column='IdPlanHasDays', primary_key=True)  # Field name made lowercase.
+    plan_idplan = models.ForeignKey(Plan, models.DO_NOTHING, db_column='Plan_idPlan', blank=True, null=True)  # Field name made lowercase.
+    plandays_idplandays = models.ForeignKey(Plandays, models.DO_NOTHING, db_column='PlanDays_idPlanDays', blank=True, null=True)  # Field name made lowercase.
+    numberofdays = models.IntegerField(db_column='NumberOfDays')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Plan_has_PlanDays'
 
 
 class Product(models.Model):
@@ -486,50 +454,7 @@ class Product(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'product'
-
-
-class Productspayment(models.Model):
-    idproductspayment = models.AutoField(db_column='idproductsPayment', primary_key=True)  # Field name made lowercase.
-    paymentusername = models.CharField(db_column='paymentUserName', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    paymentuseremail = models.CharField(db_column='paymentUserEmail', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    paymentaddress = models.CharField(db_column='paymentAddress', max_length=128, blank=True, null=True)  # Field name made lowercase.
-    paymentzipcode = models.CharField(db_column='paymentZipCode', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    paymentcityid = models.ForeignKey(City, models.DO_NOTHING, db_column='paymentCityId')  # Field name made lowercase.
-    paymenttransactionid = models.ForeignKey('Transactionpaymentgateway', models.DO_NOTHING, db_column='paymentTransactionId', blank=True, null=True)  # Field name made lowercase.
-    paymentuserid = models.ForeignKey('User', models.DO_NOTHING, db_column='paymentUserId')  # Field name made lowercase.
-    paymentvalue = models.CharField(db_column='paymentValue', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    paymentdeliveryvalue = models.CharField(db_column='paymentDeliveryValue', max_length=80, blank=True, null=True)  # Field name made lowercase.
-    servicestatus = models.ForeignKey('Statusservice', models.DO_NOTHING, db_column='ServiceStatus', blank=True, null=True)  # Field name made lowercase.
-    paymentorderdate = models.DateTimeField(db_column='PaymentOrderDate', blank=True, null=True)  # Field name made lowercase.
-    paymentphonenumber = models.CharField(db_column='PaymentPhoneNumber', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    paymentuserdocument = models.CharField(db_column='PaymentUserDocument', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    paymentuserdocumenttype = models.ForeignKey(Doctype, models.DO_NOTHING, db_column='PaymentUserDocumentType', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'productspayment'
-
-
-class ProductspaymentHasProduct(models.Model):
-    productspayment_idproductspayment = models.OneToOneField(Productspayment, models.DO_NOTHING, db_column='productsPayment_idproductsPayment', primary_key=True)  # Field name made lowercase.
-    product_productid = models.ForeignKey(Product, models.DO_NOTHING, db_column='Product_productId')  # Field name made lowercase.
-    productcount = models.CharField(db_column='productCount', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    productammount = models.FloatField(db_column='productAmmount', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'productspayment_has_product'
-        unique_together = (('productspayment_idproductspayment', 'product_productid'),)
-
-
-class Productstatus(models.Model):
-    idproductstatus = models.IntegerField(db_column='idProductStatus', primary_key=True)  # Field name made lowercase.
-    productstatusdescription = models.CharField(db_column='productStatusDescription', max_length=50, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'productstatus'
+        db_table = 'Product'
 
 
 class Professionalspecialty(models.Model):
@@ -541,7 +466,7 @@ class Professionalspecialty(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'professionalspecialty'
+        db_table = 'ProfessionalSpecialty'
 
 
 class Provieded(models.Model):
@@ -560,7 +485,7 @@ class Provieded(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'provieded'
+        db_table = 'Provieded'
 
 
 class Purchaseorder(models.Model):
@@ -577,7 +502,7 @@ class Purchaseorder(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'purchaseorder'
+        db_table = 'PurchaseOrder'
 
 
 class Relationship(models.Model):
@@ -586,7 +511,7 @@ class Relationship(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'relationship'
+        db_table = 'Relationship'
 
 
 class Request(models.Model):
@@ -610,7 +535,7 @@ class Request(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'request'
+        db_table = 'Request'
 
 
 class Rol(models.Model):
@@ -619,7 +544,7 @@ class Rol(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'rol'
+        db_table = 'Rol'
 
 
 class Rolpermission(models.Model):
@@ -633,7 +558,7 @@ class Rolpermission(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'rolpermission'
+        db_table = 'RolPermission'
 
 
 class Roomchat(models.Model):
@@ -644,7 +569,7 @@ class Roomchat(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'roomchat'
+        db_table = 'RoomChat'
 
 
 class Service(models.Model):
@@ -662,7 +587,7 @@ class Service(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'service'
+        db_table = 'Service'
 
 
 class Sex(models.Model):
@@ -671,7 +596,7 @@ class Sex(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'sex'
+        db_table = 'Sex'
 
 
 class State(models.Model):
@@ -681,7 +606,7 @@ class State(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'state'
+        db_table = 'State'
 
 
 class Statusaddress(models.Model):
@@ -690,7 +615,7 @@ class Statusaddress(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statusaddress'
+        db_table = 'StatusAddress'
 
 
 class Statuscompany(models.Model):
@@ -699,7 +624,7 @@ class Statuscompany(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statuscompany'
+        db_table = 'StatusCompany'
 
 
 class Statuscoupon(models.Model):
@@ -708,7 +633,7 @@ class Statuscoupon(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statuscoupon'
+        db_table = 'StatusCoupon'
 
 
 class Statusdevice(models.Model):
@@ -717,7 +642,7 @@ class Statusdevice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statusdevice'
+        db_table = 'StatusDevice'
 
 
 class Statuspayment(models.Model):
@@ -728,7 +653,7 @@ class Statuspayment(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statuspayment'
+        db_table = 'StatusPayment'
 
 
 class Statusroomchat(models.Model):
@@ -737,7 +662,7 @@ class Statusroomchat(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statusroomchat'
+        db_table = 'StatusRoomChat'
 
 
 class Statusservice(models.Model):
@@ -748,7 +673,7 @@ class Statusservice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statusservice'
+        db_table = 'StatusService'
 
 
 class Statususer(models.Model):
@@ -757,7 +682,7 @@ class Statususer(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'statususer'
+        db_table = 'StatusUser'
 
 
 class Support(models.Model):
@@ -768,18 +693,7 @@ class Support(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'support'
-
-
-class SysConfig(models.Model):
-    variable = models.CharField(primary_key=True, max_length=128)
-    value = models.CharField(max_length=128, blank=True, null=True)
-    set_time = models.DateTimeField(blank=True, null=True)
-    set_by = models.CharField(max_length=128, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sys_config'
+        db_table = 'Support'
 
 
 class Transactionpaymentgateway(models.Model):
@@ -796,7 +710,7 @@ class Transactionpaymentgateway(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'transactionpaymentgateway'
+        db_table = 'TransactionPaymentGateway'
 
 
 class Typenotification(models.Model):
@@ -805,7 +719,7 @@ class Typenotification(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'typenotification'
+        db_table = 'TypeNotification'
 
 
 class Typepillbox(models.Model):
@@ -814,7 +728,7 @@ class Typepillbox(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'typepillbox'
+        db_table = 'TypePillbox'
 
 
 class Typeproduct(models.Model):
@@ -823,7 +737,7 @@ class Typeproduct(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'typeproduct'
+        db_table = 'TypeProduct'
 
 
 class Typeservice(models.Model):
@@ -832,7 +746,7 @@ class Typeservice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'typeservice'
+        db_table = 'TypeService'
 
 
 class User(models.Model):
@@ -860,4 +774,193 @@ class User(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = 'User'
+
+
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=150)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class Companytype(models.Model):
+    idcompanytype = models.AutoField(db_column='idcompanyType', primary_key=True)  # Field name made lowercase.
+    companytypedescription = models.CharField(db_column='companyTypeDescription', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    companytypeimageurl = models.CharField(db_column='companyTypeImageUrl', max_length=255, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'companyType'
+
+
+class Diasnoticimagesservice(models.Model):
+    iddiasnoticimagesservice = models.AutoField(db_column='iddiasnoticImagesService', primary_key=True)  # Field name made lowercase.
+    diasnoticimagesserviceaddress = models.CharField(db_column='diasnoticImagesServiceAddress', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesserviceuserphone = models.CharField(db_column='diasnoticImagesServiceUserPhone', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesserviceusername = models.CharField(db_column='diasnoticImagesServiceUserName', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesserviceemail = models.CharField(db_column='diasnoticImagesServiceEmail', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesservicevalue = models.CharField(db_column='diasnoticImagesServiceValue', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesserviceplan_iddiasnoticimagesserviceplan = models.ForeignKey('Diasnoticimagesserviceplan', models.DO_NOTHING, db_column='diasnoticImagesServicePlan_iddiasnoticImagesServicePlan')  # Field name made lowercase.
+    diasnoticimagesserviceuserid = models.ForeignKey(User, models.DO_NOTHING, db_column='diasnoticImagesServiceUserId')  # Field name made lowercase.
+    diasnoticimagesservicetransaction = models.ForeignKey(Transactionpaymentgateway, models.DO_NOTHING, db_column='diasnoticImagesServiceTransaction', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'diasnoticImagesService'
+
+
+class Diasnoticimagesserviceplan(models.Model):
+    iddiasnoticimagesserviceplan = models.AutoField(db_column='iddiasnoticImagesServicePlan', primary_key=True)  # Field name made lowercase.
+    diasnoticimagesserviceplandescription = models.CharField(db_column='diasnoticImagesServicePlanDescription', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    diasnoticimagesserviceplanvalue = models.CharField(db_column='diasnoticImagesServicePlanValue', max_length=45, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'diasnoticImagesServicePlan'
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
+class Productstatus(models.Model):
+    idproductstatus = models.IntegerField(db_column='idProductStatus', primary_key=True)  # Field name made lowercase.
+    productstatusdescription = models.CharField(db_column='productStatusDescription', max_length=50, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'productStatus'
+
+
+class Productspayment(models.Model):
+    idproductspayment = models.AutoField(db_column='idproductsPayment', primary_key=True)  # Field name made lowercase.
+    paymentusername = models.CharField(db_column='paymentUserName', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    paymentuseremail = models.CharField(db_column='paymentUserEmail', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    paymentaddress = models.CharField(db_column='paymentAddress', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    paymentzipcode = models.CharField(db_column='paymentZipCode', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    paymentcityid = models.ForeignKey(City, models.DO_NOTHING, db_column='paymentCityId')  # Field name made lowercase.
+    paymenttransactionid = models.ForeignKey(Transactionpaymentgateway, models.DO_NOTHING, db_column='paymentTransactionId', blank=True, null=True)  # Field name made lowercase.
+    paymentuserid = models.ForeignKey(User, models.DO_NOTHING, db_column='paymentUserId')  # Field name made lowercase.
+    paymentvalue = models.CharField(db_column='paymentValue', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    paymentdeliveryvalue = models.CharField(db_column='paymentDeliveryValue', max_length=80, blank=True, null=True)  # Field name made lowercase.
+    servicestatus = models.ForeignKey(Statusservice, models.DO_NOTHING, db_column='ServiceStatus', blank=True, null=True)  # Field name made lowercase.
+    paymentorderdate = models.DateTimeField(db_column='PaymentOrderDate', blank=True, null=True)  # Field name made lowercase.
+    paymentphonenumber = models.CharField(db_column='PaymentPhoneNumber', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    paymentuserdocument = models.CharField(db_column='PaymentUserDocument', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    paymentuserdocumenttype = models.ForeignKey(Doctype, models.DO_NOTHING, db_column='PaymentUserDocumentType', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'productsPayment'
+
+
+class ProductspaymentHasProduct(models.Model):
+    productspayment_idproductspayment = models.ForeignKey(Productspayment, models.DO_NOTHING, db_column='productsPayment_idproductsPayment', primary_key=True)  # Field name made lowercase.
+    product_productid = models.ForeignKey(Product, models.DO_NOTHING, db_column='Product_productId')  # Field name made lowercase.
+    productcount = models.CharField(db_column='productCount', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    productammount = models.FloatField(db_column='productAmmount', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'productsPayment_has_Product'
+        unique_together = (('productspayment_idproductspayment', 'product_productid'),)

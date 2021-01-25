@@ -30,7 +30,6 @@ def usuariospormes(dates):
         year = hora.year
         timestamp = datetime.datetime.fromtimestamp(date)
         for i in range(0,len(meses)):
-            print(month)
             if month-1==0:
                 if timestamp.month == month and timestamp.year ==year:
                     meses[i]=meses[i]+1
@@ -40,41 +39,29 @@ def usuariospormes(dates):
                 if timestamp.month == month and timestamp.year ==year:
                     meses[i]=meses[i]+1
                 month=month-1
-        # if hora.month-1==0:
-        #     month=12
-        #     if timestamp.month == month and timestamp.year ==hora.year-1:
-        #         dici=dici+1
-        #     if timestamp.month == month-1 and timestamp.year ==hora.year-1:
-        #         novi=novi+1
-        #     if timestamp.month == month-2 and timestamp.year ==hora.year-1:
-        #         octu=octu+1
-        # else:
-        #     if timestamp.month == hora.month and timestamp.year ==hora.year-1:
-        #         dici=dici+1
-        #     if timestamp.month == hora.month-1 and timestamp.year ==hora.year-1:
-        #         novi=novi+1
-        #     if timestamp.month == hora.month-2 and timestamp.year ==hora.year-1:
-        #         octu=octu+1
-    print(meses)
     return meses
 
 def usuariospormespas(dates):
-    octu=0
-    novi=0
-    dici=0
-    ene=0
+    meses=[]
+    for i in range(0,4): 
+        meses.append(0)
+    month=0
+    hora = datetime.datetime.now()
     for date in dates:
-        
+        month=hora.month
+        year = hora.year-1
         timestamp = datetime.datetime.fromtimestamp(date)
-        if timestamp.month == 1 and timestamp.year ==2020:
-            ene=ene+1
-        if timestamp.month == 12 and timestamp.year ==2019:
-            dici=dici+1
-        if timestamp.month == 11 and timestamp.year ==2019:
-            novi=novi+1
-        if timestamp.month == 10 and timestamp.year ==2019:
-            octu=octu+1
-    return octu,novi,dici,ene
+        for i in range(0,len(meses)):
+            if month-1==0:
+                if timestamp.month == month and timestamp.year ==year:
+                    meses[i]=meses[i]+1
+                month=12
+                year =year-1
+            else:
+                if timestamp.month == month and timestamp.year ==year:
+                    meses[i]=meses[i]+1
+                month=month-1
+    return meses
 def statustrans(status):
     pedin=0
     comfrimed=0
