@@ -29,7 +29,5 @@ urlpatterns = [
     path('companys.datoscompany', views.datoscompany, name='datoscompany'),
     path('companys.datosproducto', views.datosproducto, name='datosproducto'),
     path('tablacc<companyid>', views.tabla, name='tabla'),
-    # # Matches any html file
-    re_path(r'^.*\.*', views.pages, name='pages'),
 
 ]

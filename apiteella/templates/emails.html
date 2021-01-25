@@ -14,18 +14,8 @@
         
         <div class="bgc-white p-20 bd">
         
-        <h6 class="c-grey-900 card-header">Envio de Emails</h6>
+        <h6 class="c-grey-900 card-header">Seleccion de plantilla para email</h6>
         <div class="mT-30">
-            <div class="row">
-            <div class="col-md-12 mb-3">
-                <label for="validationCustom01">asunto</label>
-                <input type="text" class="form-control" name="asunto" placeholder="Subject"  required>
-            </div>
-            <div class="col-md-12 mb-3">
-                <label for="validationCustom02">Destinatarios</label>
-                <textarea class="form-control" style="height: 37px;"name="dest" placeholder="Para: " ></textarea>
-            </div>
-            </div>
             <div class="row">
             <div class="col-md-12 mb-3">
                 <div class="custom-file">
@@ -34,9 +24,12 @@
                     <div class="invalid-feedback">Example invalid custom file feedback</div>
                 </div>
             </div>
-                
+            <div class="col-md-12">
+            <input type="hidden" name="idcom" value="pre">
+            <button class="btn-custom" type="submit">Previsualizar</button>
             </div>
-            <button class="btn-custom" type="submit">Enviar mail</button>
+            </div>
+            
             <script>
                 // Example starter JavaScript for disabling form submissions if there are invalid fields
                 

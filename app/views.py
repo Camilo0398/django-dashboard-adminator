@@ -12,28 +12,6 @@ from app import models
 from app.logica import bucket, mail, archivo, graficas
 
 @login_required(login_url="/login/")
-def pages(request):
-    context = {}
-    # All resource paths end in .html.
-    # Pick out the html file name from the url. And load that template.
-    try:
-        
-        load_template = request.path.split('/')[-1]
-        html_template = loader.get_template( load_template )
-        return HttpResponse(html_template.render(context, request))
-        
-    except template.TemplateDoesNotExist:
-
-        html_template = loader.get_template( 'page-404.html' )
-        return HttpResponse(html_template.render(context, request))
-
-    except:
-    
-        html_template = loader.get_template( 'page-500.html' )
-        return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
 def actuusuario(request):
     context = {}
     try:
@@ -526,19 +504,25 @@ def crearcompany(request):
 def emails(request):
 
     context = {}
-    try:
+    try: 
         if request.method=='POST':
-            asunto = request.POST['asunto']
-            if request.POST['dest']:
-                destinatarios = str(request.POST['dest'])
-                destinatarios = destinatarios.split(",")
+            if request.POST['idcom']=="pre": 
+                html = request.FILES['html']
+                var = archivo.arreglarhtml(html)
+                return render(request,"previsualizar.html",{'html':var})
             else:
-                destinatarios = models.User.objects.values_list('accountemail', flat=True)
+                asunto = request.POST['asunto']
+                var = request.POST['idcom']
+                if request.POST['dest']:
+                    destinatario = str(request.POST['dest'])
+                    destinatarios=destinatario.split(",")
+                    for destinatario in destinatarios:
+                        mail.enviarmail(destinatario,asunto,var)
+                if len(request.POST.getlist('correg'))==1:
+                    destinatarios=models.User.objects.values_list('accountemail', flat=True)
+                    for destinatario in destinatarios:
+                        mail.enviarmail(destinatario,asunto,var)
                 
-            html = request.FILES['html']
-            var = archivo.arreglarhtml(html)
-            for destinatario in destinatarios:
-                mail.enviarmail(destinatario,asunto,var)
         return render(request,"emails.html")
     
     except template.TemplateDoesNotExist:
@@ -550,6 +534,7 @@ def emails(request):
     
         html_template = loader.get_template( 'page-500.html' )
         return HttpResponse(html_template.render(context, request))
+
 
 
 @login_required(login_url="/login/")

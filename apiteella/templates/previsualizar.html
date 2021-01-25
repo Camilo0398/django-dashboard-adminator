@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Forms {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container col-md-12">
+
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8 ">
+<div class="card">
+{{html| safe }}
+<br></br>
+<form method='POST' action="{% url 'emails' %}" enctype="multipart/form-data">{% csrf_token %}
+        
+    <div class="bgc-white p-20 bd">
+    
+    <h6 class="c-grey-900 card-header">Enviar Email</h6>
+    <div class="mT-30">
+        <div class="row">
+        <div class="col-md-12 mb-3">
+            <label for="validationCustom01">asunto</label>
+            <input type="text" class="form-control" name="asunto" placeholder="Subject"  required>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label for="validationCustom02">Destinatarios</label>
+            <textarea class="form-control" style="height: 37px;"name="dest" placeholder="Para: " ></textarea>
+        </div>
+        </div>
+        <div class="row">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="correg">
+            <label class="form-check-label" for="autoSizingCheck">
+              ¿Desea enviar a los correos registrados?
+            </label>
+          </div>
+        <div class="col-md-12">
+        <input type="hidden" name="idcom" value="{{html}}">
+        <button class="btn-custom" type="submit">Enviar</button>
+        </div>
+        </div>
+        
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            
+        </script>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+<div class="col-md-2"></div>
+</div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
