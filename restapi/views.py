@@ -13,8 +13,10 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_fields = ('accountemail', )
 
 class ProductViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.ProductSerializers
     queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializers
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('typeproduct_typeproductid','productid' )
 
 class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CompanySerializers
